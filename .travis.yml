@@ -5,14 +5,12 @@ android:
     - extra
     - tools
     - platform-tools
-    - build-tools-25.0.1
-    - android-22
-    - android-25
+    - build-tools-27.0.3
+    - android-27
     - extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-m2repository
-    - addon-google_apis-google-25
-    - sys-img-armeabi-v7a-android-22
+    - addon-google_apis-google-27
 
 env:
   global:
@@ -21,17 +19,11 @@ env:
 sudo: required
 
 before_install:
-  - yes | sdkmanager "platforms;android-25"
+  - yes | sdkmanager "platforms;android-27"
   - nvm install 8
 
 install:
   - npm install
-
-#before_script:
-#  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
-#  - emulator -avd test -no-audio -no-window &
-#  - android-wait-for-emulator
-#  - adb shell input keyevent 82 &
 
 script:
   - cd android && ./gradlew assembleRelease
