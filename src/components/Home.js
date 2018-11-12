@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  Platform,
-  Text,
-  View
-} from 'react-native';
+import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import SafariView from 'react-native-safari-view';
-import { CustomTabs } from 'react-native-custom-tabs';
 import Article from './Article';
 
 const ALL_ARTICLES = gql`
@@ -34,14 +26,6 @@ class Home extends Component {
 
   state = {
     isRefreshing: false
-  };
-
-  openWeb = url => {
-    if (Platform.OS === 'ios') {
-      SafariView.show({ url });
-    } else {
-      CustomTabs.openURL(url);
-    }
   };
 
   render() {
