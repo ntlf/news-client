@@ -4,25 +4,35 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint src"
   },
   "dependencies": {
-    "apollo-cache-inmemory": "^1.1.9",
-    "apollo-client": "^2.2.5",
-    "apollo-link-http": "^1.5.2",
-    "graphql": "^0.13.1",
-    "graphql-tag": "^2.8.0",
+    "apollo-boost": "^0.1.20",
+    "graphql": "^0.13.2",
+    "graphql-tag": "^2.10.0",
+    "prop-types": "^15.6.2",
     "react": "^16.6.0-alpha.8af6728",
-    "react-apollo": "^2.0.4",
+    "react-apollo": "^2.2.4",
     "react-native": "^0.57.4",
     "react-native-custom-tabs": "^0.1.7",
     "react-native-safari-view": "^2.1.0",
-    "react-navigation": "^1.4.0"
+    "react-navigation": "^1.4.0",
+    "timeago.js": "^4.0.0-beta.1"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.1",
     "babel-jest": "23.6.0",
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^3.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-prettier": "^3.0.0",
+    "eslint-plugin-react": "^7.11.1",
     "jest": "23.6.0",
     "metro-react-native-babel-preset": "0.49.0",
+    "prettier": "^1.14.3",
     "react-test-renderer": "16.6.0-alpha.8af6728"
   },
   "jest": {
