@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
   Image,
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class Article extends Component {
+class Article extends PureComponent {
   static propTypes = {
     data: PropTypes.shape({}).isRequired
   };
