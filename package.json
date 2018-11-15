@@ -15,7 +15,7 @@
     "react": "^16.6.0-alpha.8af6728",
     "react-apollo": "^2.2.4",
     "react-native": "^0.57.4",
-    "react-native-custom-tabs": "^0.1.7",
+    "react-native-custom-tabs": "https://github.com/ntlf/react-native-custom-tabs.git",
     "react-native-elements": "^0.19.1",
     "react-native-safari-view": "^2.1.0",
     "react-native-vector-icons": "^6.0.2",
