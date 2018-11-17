@@ -9,9 +9,9 @@ import {
 import PropTypes from 'prop-types';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import { SearchBar } from 'react-native-elements';
 import Article from './Article';
-import NoMore from './NoMore';
+import ListInfo from './ListInfo';
+import Header from './Header';
 
 const ALL_ARTICLES = gql`
   query allArticles($skip: Int = 0, $first: Int = 10, $text: String = "") {
@@ -35,24 +35,9 @@ const styles = StyleSheet.create({
 });
 
 class Home extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    title: 'HirPlacc',
-    header: (
-      <SafeAreaView style={{ backgroundColor: '#393e42' }}>
-        <View>
-          <SearchBar
-            onChangeText={
-              navigation.state.params
-                ? navigation.state.params.onSearch
-                : () => {}
-            }
-            onClearText={() => {}}
-            placeholder="Search..."
-          />
-        </View>
-      </SafeAreaView>
-    )
-  });
+  static navigationOptions = {
+    header: null
+  };
 
   static propTypes = {
     navigation: PropTypes.shape({})
@@ -62,12 +47,6 @@ class Home extends Component {
     isRefreshing: false,
     searchText: undefined
   };
-
-  componentDidMount() {
-    const { navigation } = this.props;
-
-    navigation.setParams({ onSearch: this.onSearch });
-  }
 
   onSearch = text => {
     if (this.timeout) {
@@ -83,57 +62,71 @@ class Home extends Component {
     const { isRefreshing, searchText } = this.state;
 
     return (
-      <Query
-        query={ALL_ARTICLES}
-        variables={{
-          skip: 0,
-          first: 10,
-          text: searchText
-        }}
-      >
-        {({ loading, data, refetch, fetchMore }) => (
-          <FlatList
-            data={data.articles}
-            keyExtractor={item => item.id}
-            onRefresh={async () => {
-              this.setState({ isRefreshing: true });
+      <SafeAreaView>
+        <Query
+          query={ALL_ARTICLES}
+          variables={{
+            skip: 0,
+            first: 10,
+            text: searchText
+          }}
+        >
+          {({ loading, data, refetch, fetchMore }) => (
+            <FlatList
+              data={data.articles}
+              keyExtractor={item => item.id}
+              onRefresh={async () => {
+                this.setState({ isRefreshing: true });
 
-              await refetch();
+                await refetch();
 
-              this.setState({ isRefreshing: false });
-            }}
-            refreshing={isRefreshing}
-            renderItem={({ item }) => <Article data={item} />}
-            ListFooterComponent={() =>
-              loading ? (
-                <ActivityIndicator
-                  style={styles.loading}
-                  animating
-                  size="large"
-                />
-              ) : (
-                <NoMore />
-              )
-            }
-            onEndReached={() => {
-              fetchMore({
-                variables: {
-                  skip: data.articles.length
-                },
-                updateQuery: (prev, { fetchMoreResult }) => {
-                  if (!fetchMoreResult.articles) return prev;
-
-                  return {
-                    ...prev,
-                    articles: [...prev.articles, ...fetchMoreResult.articles]
-                  };
+                this.setState({ isRefreshing: false });
+              }}
+              refreshing={isRefreshing}
+              renderItem={({ item }) => <Article data={item} />}
+              ListHeaderComponent={() => (
+                <Header searchText={searchText} onSearch={this.onSearch} />
+              )}
+              ListFooterComponent={() => {
+                if (loading) {
+                  return (
+                    <ActivityIndicator
+                      style={styles.loading}
+                      animating
+                      size="large"
+                    />
+                  );
                 }
-              });
-            }}
-            onEndReachedThreshold={0.5}
-          />
-        )}
-      </Query>
+
+                if (data.articles.length) {
+                  return <ListInfo title="No more hits." />;
+                }
+
+                return <View />;
+              }}
+              ListEmptyComponent={() =>
+                !loading && <ListInfo title="Nothing found." />
+              }
+              onEndReached={() => {
+                fetchMore({
+                  variables: {
+                    skip: data.articles.length
+                  },
+                  updateQuery: (prev, { fetchMoreResult }) => {
+                    if (!fetchMoreResult.articles) return prev;
+
+                    return {
+                      ...prev,
+                      articles: [...prev.articles, ...fetchMoreResult.articles]
+                    };
+                  }
+                });
+              }}
+              onEndReachedThreshold={0.5}
+            />
+          )}
+        </Query>
+      </SafeAreaView>
     );
   }
 }

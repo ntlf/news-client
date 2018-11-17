@@ -71,9 +71,11 @@ class Article extends PureComponent {
               <Text style={styles.title}>{data.title}</Text>
               <Text>{data.description}</Text>
             </View>
-            <View style={styles.imageWrapper}>
-              <Image style={styles.image} source={{ uri: data.image_url }} />
-            </View>
+            {!data.image_url.includes('.ico') && (
+              <View style={styles.imageWrapper}>
+                <Image style={styles.image} source={{ uri: data.image_url }} />
+              </View>
+            )}
           </View>
           <View>
             <Text style={styles.sourceDomain}>
