@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   ActivityIndicator,
+  AsyncStorage,
   FlatList,
   SafeAreaView,
   StyleSheet,
@@ -14,8 +15,18 @@ import ListInfo from './ListInfo';
 import Header from './Header';
 
 const ALL_ARTICLES = gql`
-  query allArticles($skip: Int = 0, $first: Int = 10, $text: String = "") {
-    articles: allArticlesByDate(skip: $skip, first: $first, text: $text) {
+  query allArticles2(
+    $skip: Int = 0
+    $first: Int = 10
+    $text: String = ""
+    $disabledSites: [String!]
+  ) {
+    articles: allArticles2(
+      skip: $skip
+      first: $first
+      text: $text
+      disabledSites: $disabledSites
+    ) {
       id
       title
       source_domain
@@ -45,7 +56,30 @@ class Home extends Component {
 
   state = {
     isRefreshing: false,
-    searchText: undefined
+    searchText: '',
+    disabledSites: []
+  };
+
+  loadSettings = async () => {
+    const disabledSites =
+      JSON.parse(await AsyncStorage.getItem('DISABLED_SITES')) || [];
+
+    this.setState({ disabledSites });
+  };
+
+  componentDidMount = async () => {
+    const { navigation } = this.props;
+
+    this.didBlurSubscription = navigation.addListener(
+      'didFocus',
+      this.loadSettings
+    );
+
+    await this.loadSettings();
+  };
+
+  componentWillUnmount = () => {
+    this.didBlurSubscription.remove();
   };
 
   onSearch = text => {
@@ -59,7 +93,7 @@ class Home extends Component {
   };
 
   render() {
-    const { isRefreshing, searchText } = this.state;
+    const { isRefreshing, searchText, disabledSites } = this.state;
     const { navigation } = this.props;
 
     return (
@@ -69,7 +103,8 @@ class Home extends Component {
           variables={{
             skip: 0,
             first: 10,
-            text: searchText
+            text: searchText,
+            disabledSites
           }}
         >
           {({ loading, data, refetch, fetchMore }) => (
