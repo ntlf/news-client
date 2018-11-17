@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const Header = ({ onSearch, searchText }) => (
+const Header = ({ onSearch, searchText, onSettingsPress }) => (
   <ImageBackground
     style={{
       backgroundColor: '#ccc',
@@ -104,7 +104,7 @@ const Header = ({ onSearch, searchText }) => (
           underlayColor="#393e42AA"
           name="settings"
           color="#e1e8ee"
-          onPress={() => alert('This is a button!')}
+          onPress={onSettingsPress}
         />
       </View>
     </View>
@@ -113,7 +113,8 @@ const Header = ({ onSearch, searchText }) => (
 
 Header.propTypes = {
   searchText: PropTypes.string,
-  onSearch: PropTypes.func
+  onSearch: PropTypes.func,
+  onSettingsPress: PropTypes.func
 };
 
 export default Header;

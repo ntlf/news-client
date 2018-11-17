@@ -60,6 +60,7 @@ class Home extends Component {
 
   render() {
     const { isRefreshing, searchText } = this.state;
+    const { navigation } = this.props;
 
     return (
       <SafeAreaView>
@@ -85,7 +86,11 @@ class Home extends Component {
               refreshing={isRefreshing}
               renderItem={({ item }) => <Article data={item} />}
               ListHeaderComponent={() => (
-                <Header searchText={searchText} onSearch={this.onSearch} />
+                <Header
+                  searchText={searchText}
+                  onSearch={this.onSearch}
+                  onSettingsPress={() => navigation.navigate('Settings')}
+                />
               )}
               ListFooterComponent={() => {
                 if (loading) {
