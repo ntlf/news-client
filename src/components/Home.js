@@ -92,9 +92,19 @@ class Home extends Component {
     }, 500);
   };
 
+  renderHeader = () => {
+    const { navigation } = this.props;
+
+    return (
+      <Header
+        onSearch={this.onSearch}
+        onSettingsPress={() => navigation.navigate('Settings')}
+      />
+    );
+  };
+
   render() {
     const { isRefreshing, searchText, disabledSites } = this.state;
-    const { navigation } = this.props;
 
     return (
       <SafeAreaView>
@@ -120,13 +130,7 @@ class Home extends Component {
               }}
               refreshing={isRefreshing}
               renderItem={({ item }) => <Article data={item} />}
-              ListHeaderComponent={() => (
-                <Header
-                  searchText={searchText}
-                  onSearch={this.onSearch}
-                  onSettingsPress={() => navigation.navigate('Settings')}
-                />
-              )}
+              ListHeaderComponent={this.renderHeader}
               ListFooterComponent={() => {
                 if (loading) {
                   return (

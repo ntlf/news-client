@@ -51,17 +51,11 @@ const styles = StyleSheet.create({
   settings: {
     position: 'absolute',
     top: 16,
-    right: 16,
-    paddingTop: 4,
-    paddingRight: 4,
-    paddingBottom: 4,
-    paddingLeft: 4,
-    backgroundColor: '#393e42F3',
-    borderRadius: 2
+    right: 16
   }
 });
 
-const Header = ({ onSearch, searchText, onSettingsPress }) => (
+const Header = ({ onSearch, onSettingsPress }) => (
   <ImageBackground
     style={{
       backgroundColor: '#ccc',
@@ -86,7 +80,7 @@ const Header = ({ onSearch, searchText, onSettingsPress }) => (
     <View style={styles.header}>
       <View style={styles.brandWrapper}>
         <View style={styles.titleWrapper}>
-          <Text style={styles.title}>HirPlacc</Text>
+          <Text style={styles.title}>HírPlacc</Text>
         </View>
       </View>
       <SearchBar
@@ -94,16 +88,16 @@ const Header = ({ onSearch, searchText, onSettingsPress }) => (
         containerStyle={styles.searchContainer}
         inputStyle={styles.searchInput}
         onChangeText={onSearch}
-        onClearText={() => {}}
+        onClearText={() => onSearch('')}
+        clearIcon
         placeholder="Search..."
-        defaultValue={searchText}
       />
 
       <View style={styles.settings}>
         <Icon
-          underlayColor="#393e42AA"
+          underlayColor="#00000000"
           name="settings"
-          color="#e1e8ee"
+          color="#fafafa"
           onPress={onSettingsPress}
         />
       </View>
@@ -112,7 +106,6 @@ const Header = ({ onSearch, searchText, onSettingsPress }) => (
 );
 
 Header.propTypes = {
-  searchText: PropTypes.string,
   onSearch: PropTypes.func,
   onSettingsPress: PropTypes.func
 };
