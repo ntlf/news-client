@@ -46,14 +46,17 @@ class Settings extends Component {
     title: 'Settings'
   };
 
-  state = {
-    disabledSites: []
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      disabledSites: []
+    };
+  }
 
   componentDidMount = async () => {
     const disabledSites =
       JSON.parse(await AsyncStorage.getItem('DISABLED_SITES')) || [];
-
     this.setState({ disabledSites });
   };
 

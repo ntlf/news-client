@@ -54,11 +54,15 @@ class Home extends Component {
     navigation: PropTypes.shape({})
   };
 
-  state = {
-    isRefreshing: false,
-    searchText: '',
-    disabledSites: []
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isRefreshing: false,
+      searchText: '',
+      disabledSites: []
+    };
+  }
 
   loadSettings = async () => {
     const disabledSites =
